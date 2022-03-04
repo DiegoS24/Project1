@@ -1,0 +1,9 @@
+addsub dys0022 LOW
+addsub mnd1234 MEDIUM
+addsub cse1234 HIGH
+addobj file001 MEDIUM
+addobj file002 LOW
+status
+write dys0022 file0022 20
+read dys0022 file001
+test_command
