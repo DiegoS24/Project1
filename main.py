@@ -81,10 +81,9 @@ for line in lines:
             while subList[j].getName() != tempUser.getName():
                 j += 1
             subList[j].setVal(tempVal)
-            print(subList[j].getVal())
         # no write down
         elif subDict[tempUser.getName()].value > objDict[tempObj.getName()].value:
-            print("Access Denied  : ")
+            print("Access Denied  : " + tempUser.getName() + " writes value " + str(tempVal) + " to " + tempObj.getName())
 
         # print(subDict[tempUser], objDict[tempObj])
 
@@ -92,20 +91,24 @@ for line in lines:
     elif line[0] == my_list[4]:
         tempUser = User(line[1])
         tempObj = Object(line[2])
+        # when I call new objects,the temporary ones have the values set to 0. So I need to iterate through the object
+        # list, where the names match, and assign that respective value
 
         if subDict[tempUser.getName()].value >= objDict[tempObj.getName()].value:
             i = 0
+            j = 0
             while subList[i].getName() != tempUser.getName():
                 i += 1
-            subList[i].setVal(tempObj.getVal())
-            print(subList[i].getVal())
+
+            while objList[j].getName() != tempObj.getName():
+                j += 1
+            # issue here, has the right object, incorrect value. but the write command sets the desired value in location
+            subList[i].setVal(objList[j].getVal())
 
             print("Access Granted  : " + tempUser.getName() + " reads  " + tempObj.getName())
 
-            print(subList[i].getVal())
-
         elif subDict[tempUser.getName()].value < objDict[tempObj.getName()].value:
-            print("Access Denied  : ")
+            print("Access Denied  : " + tempUser.getName() + " reads  " + tempObj.getName())
 
     else:
         print("Bad Instruction: " + line[0])
