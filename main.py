@@ -1,3 +1,4 @@
+import sys
 from userClass import User
 from objectClass import Object
 from enums import Levels
@@ -9,7 +10,7 @@ objList = []
 subDict = {}
 objDict = {}
 
-fileReadin = open("actions.txt", "r")
+fileReadin = open(sys.argv[1], "r")
 lines = fileReadin.readlines()
 fileReadin.close()
 my_list = ["addsub", "addobj", "status", "write", "read"]
@@ -17,8 +18,6 @@ my_list = ["addsub", "addobj", "status", "write", "read"]
 for line in lines:
     line = line.strip()
     print(line)
-
-print('\n\n\n')
 
 # here the whole read-in sentence is being treated as a string. However, each split that happens occupies
 # a different index, so if the line is an addsub action, addsub will be at i = 0, the euid at i = 1, and
@@ -91,12 +90,18 @@ for line in lines:
     elif line[0] == my_list[4]:
         tempUser = User(line[1])
         tempObj = Object(line[2])
+
         # when I call new objects,the temporary ones have the values set to 0. So I need to iterate through the object
         # list, where the names match, and assign that respective value
+
+        # this if branch compares the confidentiality level of the objects checks if they are equal or
+        # the user has the greater Level to uphold the Bell La-Padula Model
 
         if subDict[tempUser.getName()].value >= objDict[tempObj.getName()].value:
             i = 0
             j = 0
+
+            # these loops iterate through the loops and find the index at which the tempObj.name (line[1||2]) exists
             while subList[i].getName() != tempUser.getName():
                 i += 1
 
@@ -107,6 +112,7 @@ for line in lines:
 
             print("Access Granted  : " + tempUser.getName() + " reads  " + tempObj.getName())
 
+        # if the subject fails to meet the standard of the model, it will output an error message
         elif subDict[tempUser.getName()].value < objDict[tempObj.getName()].value:
             print("Access Denied  : " + tempUser.getName() + " reads  " + tempObj.getName())
 
